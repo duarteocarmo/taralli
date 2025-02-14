@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,6 +9,7 @@
       integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
       crossorigin="anonymous"
     ></script>
+    {% csrf_token %}
 
     <title>Taralli</title>
     <style>
@@ -151,7 +153,8 @@
     <h1>Taralli</h1>
 
     <div class="input-section">
-      <form action="/log/weight" method="post" hx-push-url="false">
+      <form action="{% url 'log_weight' %}" method="post" hx-push-url="false">
+        {% csrf_token %}
         <div class="input-group">
           <input
             type="number"
@@ -167,7 +170,8 @@
           </div>
         </div>
       </form>
-      <form action="/log/meal" method="post" hx-push-url="false">
+      <form action="{% url 'log_meal' %}" method="post" hx-push-url="false">
+        {% csrf_token %}
         <div class="input-group">
           <textarea
             id="meal"
@@ -230,7 +234,7 @@
     <script>
       async function fetchData() {
         try {
-          const response = await fetch("/data/all");
+          const response = await fetch("{% url 'data_all' %}");
           const data = await response.json();
 
           return {
@@ -320,7 +324,11 @@
         const date = dateInput.value ? new Date(dateInput.value) : new Date();
 
         try {
-          const response = await fetch("/log/weight", {
+          const response = await fetch("{% url 'log_weight' %}", {
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -348,7 +356,11 @@
         const date = dateInput.value ? new Date(dateInput.value) : new Date();
 
         try {
-          const response = await fetch("/log/meal", {
+          const response = await fetch("{% url 'log_meal' %}", {
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
             method: "POST",
             headers: {
               "Content-Type": "application/json",
