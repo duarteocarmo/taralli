@@ -27,10 +27,10 @@ class LogEntry(BaseModel):
 
 
 def compile_log_entries():
-    entries = [Weight(weight=w.weight, date=w.date) for w in weights] + [
-        Meal(description=m.description, date=m.date, calories=m.calories) for m in meals
-    ]
-    entries.sort(key=lambda x: x.date)
+    weight_entries = [(w, 'weight') for w in weights]
+    meal_entries = [(m, 'meal') for m in meals]
+    entries = weight_entries + meal_entries
+    entries.sort(key=lambda x: x[0].date)
     return entries
 
 

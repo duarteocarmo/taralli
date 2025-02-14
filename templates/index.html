@@ -214,13 +214,15 @@
       <div id="log-entries">
         {% for entry in log_entries %}
         <div class="log-entry">
-          <span class="log-type">{{ entry_name }}</span>
-          <span class="log-date">{{ entry.date|date:"Y-m-d H:i:s" }}</span>
+          <span class="log-type">{{ entry.1 }}</span>
+          <span class="log-date">{{ entry.0.date|date:"Y-m-d H:i:s" }}</span>
           <div>
-            {% if entry.__class__.__name__ == 'Weight' %} {{
-            "%.1f"|format(entry.weight) }} kg {% else %} {{ entry.description }}
-            {% if entry.calories %}({{ entry.calories }} cal){% endif %} {%
-            endif %}
+            {% if entry.1 == 'weight' %}
+              {{ entry.0.weight|floatformat:1 }} kg
+            {% else %}
+              {{ entry.0.description }}
+              {% if entry.0.calories %}({{ entry.0.calories }} cal){% endif %}
+            {% endif %}
           </div>
         </div>
         {% endfor %}
