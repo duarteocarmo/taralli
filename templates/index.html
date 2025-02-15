@@ -149,7 +149,9 @@
             </style>
         </head>
         <body hx-boost="true">
-            <h1>Taralli</h1>
+            <h1>
+                <a href="/" style="text-decoration: none; color: inherit;">Taralli</a>
+            </h1>
             <div class="input-section">
                 <form action="{% url 'log_meal' %}" method="post" hx-push-url="false">
                     {% csrf_token %}

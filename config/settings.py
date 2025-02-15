@@ -12,42 +12,43 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+DEBUG = os.environ.get("DEBUG", None) == "True"
+
+if DEBUG:
+    logger.info("DEBUG mode is on")
+else:
+    logger.info("DEBUG mode is off")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-7@4r4owtntmurlt@btx_x$jnmnuc+d6(lapwlf72_wsvnd=hm="
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "") == "True"
-
-print(f"DEBUG: {DEBUG}")
-
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-something")
 ALLOWED_HOSTS = [
     "0.0.0.0",
     "localhost",
     "127.0.0.1",
     "taralli.duarteocarmo.com",
 ]
+SECURE_HSTS_SECONDS = os.environ.get("SECURE_HSTS_SECONDS", 0)
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", False) == "True"
+SECURE_HSTS_INCLUDE_SUBDOMAINS = (
+    os.environ.get("SECURE_HSTS_INCLUDE_SUBDOMAINS", False) == "True"
+)
+SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", False) == "True"
+SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.duarteocarmo.com",
+    "https://*.127.0.0.1",
+]
 
-# Security Settings
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    CSRF_TRUSTED_ORIGINS = ["https://taralli.duarteocarmo.com"]
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -152,3 +153,27 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        "null": {
+            "class": "logging.NullHandler",
+        },
+    },
+    "loggers": {
+        "django.security.DisallowedHost": {
+            "handlers": ["null"],
+            "propagate": False,
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
