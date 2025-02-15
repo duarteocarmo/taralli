@@ -1,14 +1,24 @@
 FROM python:3.12-slim
 
-# Install uv.
+# Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Copy the application into the container.
-COPY . /app
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Install the application dependencies.
+# Set work directory
 WORKDIR /app
+
+# Copy project files
+COPY . /app/
+
+# Install dependencies
 RUN uv sync --frozen --no-cache
 
-# Run the application.
-CMD ["/app/.venv/bin/fastapi", "run", "app/main.py", "--port", "80", "--host", "0.0.0.0"]
+# Run migrations and collect static files
+RUN /app/.venv/bin/python manage.py migrate
+RUN /app/.venv/bin/python manage.py collectstatic --noinput
+
+# Run the application
+CMD ["/app/.venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
