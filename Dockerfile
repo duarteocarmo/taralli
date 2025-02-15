@@ -15,4 +15,3 @@ COPY . /app/
 
 # Install dependencies
 RUN uv sync --no-dev --frozen --no-cache
-

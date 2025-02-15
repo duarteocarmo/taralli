@@ -57,8 +57,7 @@ collectstatic:
 
 ## Build the docker image
 docker:
-	docker build -f Dockerfile -t taralli . 
-	docker run -p 8000:8000 taralli
+	docker compose up 
 
 #################################################################################
 # Self Documenting Commands                                                     #
