@@ -38,7 +38,11 @@ def get_logs(request):
 @require_http_methods(["POST"])
 def log_weight(request):
     weight = float(request.POST.get("weight"))
-    date = datetime.fromisoformat(request.POST.get("date")) if request.POST.get("date") else datetime.now()
+    date = (
+        datetime.fromisoformat(request.POST.get("date"))
+        if request.POST.get("date")
+        else datetime.now()
+    )
     w = Weight.objects.create(weight=weight, date=date)
     logger.info(f"Logged weight: {w.weight} on {w.date}")
     return render(request, "index.html", {"log_entries": compile_log_entries()})
@@ -47,7 +51,11 @@ def log_weight(request):
 @require_http_methods(["POST"])
 def log_meal(request):
     description = request.POST.get("description")
-    date = datetime.fromisoformat(request.POST.get("date")) if request.POST.get("date") else datetime.now()
+    date = (
+        datetime.fromisoformat(request.POST.get("date"))
+        if request.POST.get("date")
+        else datetime.now()
+    )
     m = Meal.objects.create(
         description=description, date=date, calories=random.randint(100, 1000)
     )
