@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 import random
 from typing import Union
 
@@ -6,6 +7,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 meals = []
 weights = []
@@ -54,7 +57,7 @@ def log_weight(request):
     date = request.POST.get("date", datetime.now())
     w = Weight(weight=weight, date=date)
     weights.append(w)
-    print(f"Logged weight: {w.weight} on {w.date}")
+    logger.info(f"Logged weight: {w.weight} on {w.date}")
     return render(request, "index.html", {"log_entries": compile_log_entries()})
 
 
@@ -64,5 +67,5 @@ def log_meal(request):
     date = request.POST.get("date", datetime.now())
     m = Meal(description=description, date=date, calories=random.randint(100, 1000))
     meals.append(m)
-    print(f"Logged meal: {m.description} on {m.date}")
+    logger.info(f"Logged meal: {m.description} on {m.date}")
     return render(request, "index.html", {"log_entries": compile_log_entries()})
