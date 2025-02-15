@@ -3,9 +3,9 @@ services:
     build: .
     command: ./entrypoint.sh
     volumes:
-      - sqlite_data:/app/db.sqlite3
+      - sqlite_data:/app/data # Mount a directory instead of a single file
     ports:
       - "8012:8012"
 
-  sqlite_data:
 volumes:
+  sqlite_data:
