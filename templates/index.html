@@ -153,7 +153,7 @@
     <h1>Taralli</h1>
 
     <div class="input-section">
-      <form action="{% url 'log_weight' %}" method="post" hx-push-url="false">
+      <form action="{% url 'log_meal' %}" method="post" hx-push-url="false">
         {% csrf_token %}
         <div class="input-group">
           <input
@@ -174,7 +174,7 @@
           </div>
         </div>
       </form>
-      <form action="{% url 'log_meal' %}" method="post" hx-push-url="false">
+      <form action="{% url 'log_weight' %}" method="post" hx-push-url="false">
         {% csrf_token %}
         <div class="input-group">
           <textarea
