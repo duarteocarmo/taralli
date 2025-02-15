@@ -1,8 +1,8 @@
-from datetime import datetime
 import logging
 import random
 
 from django.shortcuts import render
+from django.utils import timezone
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
@@ -39,9 +39,9 @@ def get_logs(request):
 def log_weight(request):
     weight = float(request.POST.get("weight"))
     date = (
-        datetime.fromisoformat(request.POST.get("date"))
+        timezone.make_aware(datetime.fromisoformat(request.POST.get("date")))
         if request.POST.get("date")
-        else datetime.now()
+        else timezone.now()
     )
     w = Weight.objects.create(weight=weight, date=date)
     logger.info(f"Logged weight: {w.weight} on {w.date}")
@@ -52,9 +52,9 @@ def log_weight(request):
 def log_meal(request):
     description = request.POST.get("description")
     date = (
-        datetime.fromisoformat(request.POST.get("date"))
+        timezone.make_aware(datetime.fromisoformat(request.POST.get("date")))
         if request.POST.get("date")
-        else datetime.now()
+        else timezone.now()
     )
     m = Meal.objects.create(
         description=description, date=date, calories=random.randint(100, 1000)
