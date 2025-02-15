@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-7@4r4owtntmurlt@btx_x$jnmnuc+d6(lapwlf72_wsvnd=hm="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "0.0.0.0",
@@ -31,6 +31,18 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "taralli.duarteocarmo.com",
 ]
+
+# Security Settings
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = ['https://taralli.duarteocarmo.com']
 
 
 # Application definition
