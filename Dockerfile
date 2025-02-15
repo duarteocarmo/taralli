@@ -15,12 +15,3 @@ COPY . /app/
 
 # Install dependencies
 RUN uv sync --frozen --no-cache
-
-# Collect static files
-RUN /app/.venv/bin/python manage.py collectstatic --noinput
-
-# Create data directory for SQLite
-RUN mkdir -p /app/data
-
-# Run the application
-CMD ["/app/.venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]

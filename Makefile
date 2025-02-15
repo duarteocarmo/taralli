@@ -42,6 +42,19 @@ build:
 	@uv pip compile pyproject.toml -o requirements.txt
 	@uv pip compile pyproject.toml --extra dev -o requirements-dev.txt
 
+## Migrate
+migrate:
+	@uv run manage.py makemigrations
+	@uv run manage.py migrate
+
+## Start server
+runserver:
+	@uv run manage.py runserver
+
+## Collect static files
+collectstatic:
+	@uv run manage.py collectstatic --noinput
+
 ## Build the docker image
 docker:
 	docker build -f Dockerfile -t taralli . 
