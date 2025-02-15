@@ -14,4 +14,5 @@ WORKDIR /app
 COPY . /app/
 
 # Install dependencies
-RUN uv sync --frozen --no-cache
+RUN uv sync --no-dev --frozen --no-cache
+
