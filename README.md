@@ -8,6 +8,7 @@ Track your food. Without the hassle.
 - [x] Log weight + Django models
 - [x] Log food + Django models
 - [x] Deployment with Docker + sqlite
+- [ ] Connect to URL
 - [ ] LLM parsing for calories (FAST)
 - [ ] Login with Django sesame to save progress
 - [ ] Delete / Update records
