@@ -30,10 +30,9 @@ def index(request):
 
 
 def get_logs(request):
-    return JsonResponse({
-        "weights": list(Weight.objects.values()),
-        "meals": list(Meal.objects.values())
-    })
+    return JsonResponse(
+        {"weights": list(Weight.objects.values()), "meals": list(Meal.objects.values())}
+    )
 
 
 @require_http_methods(["POST"])
@@ -50,9 +49,7 @@ def log_meal(request):
     description = request.POST.get("description")
     date = request.POST.get("date") or datetime.now()
     m = Meal.objects.create(
-        description=description,
-        date=date,
-        calories=random.randint(100, 1000)
+        description=description, date=date, calories=random.randint(100, 1000)
     )
     logger.info(f"Logged meal: {m.description} on {m.date}")
     return render(request, "index.html", {"log_entries": compile_log_entries()})
