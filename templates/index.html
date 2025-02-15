@@ -162,8 +162,12 @@
             id="weight"
             placeholder="Weight (kg)"
             name="weight"
+            class="form-control"
+            min="0"
+            max="500"
+            required
           />
-          <input type="datetime-local" id="weight-date" name="date" />
+          <input type="datetime-local" id="weight-date" name="date" value=""/>
           <button type="submit">Log Weight</button>
           <div class="date-hint">
             Date is optional - current time will be used if not specified
@@ -178,7 +182,7 @@
             placeholder="Meal description"
             name="description"
           ></textarea>
-          <input type="datetime-local" id="meal-date" name="date" />
+          <input type="datetime-local" id="meal-date" name="date" value=""/>
           <button type="submit">Log Meal</button>
           <div class="date-hint">
             Date is optional - current time will be used if not specified
@@ -317,71 +321,6 @@
         });
       }
 
-      async function logWeight() {
-        const weightInput = document.getElementById("weight");
-        const dateInput = document.getElementById("weight-date");
-        const weight = weightInput.value;
-        const date = dateInput.value ? new Date(dateInput.value).toISOString() : null;
-
-        try {
-          const response = await fetch("{% url 'log_weight' %}", {
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              weight: parseFloat(weight),
-              date: date,
-            }),
-          });
-
-          if (response.ok) {
-            weightInput.value = "";
-            dateInput.value = "";
-            await updateCharts();
-          }
-        } catch (error) {
-          console.error("Error logging weight:", error);
-        }
-      }
-
-      async function logMeal() {
-        const mealInput = document.getElementById("meal");
-        const dateInput = document.getElementById("meal-date");
-        const meal = mealInput.value;
-        const date = dateInput.value ? new Date(dateInput.value).toISOString() : null;
-
-        try {
-          const response = await fetch("{% url 'log_meal' %}", {
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              description: meal,
-              date: date,
-            }),
-          });
-
-          const data = await response.json();
-          if (response.ok) {
-            mealInput.value = "";
-            dateInput.value = "";
-            alert(`Meal logged! Estimated calories: ${data.calories}`);
-            await updateCharts();
-          }
-        } catch (error) {
-          console.error("Error logging meal:", error);
-        }
-      }
 
       // Initialize charts when page loads
       updateCharts();
