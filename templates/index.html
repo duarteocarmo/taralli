@@ -184,7 +184,7 @@
             pattern="^\d+\.\d{2}$"
             title="Please enter a weight with exactly two decimal places"
           />
-          <input type="datetime-local" id="weight-date" name="date" value=""/>
+          <input type="datetime-local" id="weight-date" name="date"/>
           <button type="submit">Log Weight</button>
           <div class="date-hint">
             Date is optional - current time will be used if not specified
@@ -323,6 +323,13 @@
         });
       }
 
+
+      // Set default date for weight to today
+      document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date();
+        today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+        document.getElementById('weight-date').value = today.toISOString().slice(0, 16);
+      });
 
       // Initialize charts when page loads
       updateCharts();
