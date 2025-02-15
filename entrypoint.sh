@@ -10,4 +10,4 @@ echo "Apply database migrations"
 
 # Start server
 echo "Starting server"
-/app/.venv/bin/python manage.py runserver 0.0.0.0:8000
+/app/.venv/bin/python manage.py runserver 0.0.0.0:8012
