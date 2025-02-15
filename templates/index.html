@@ -321,7 +321,7 @@
         const weightInput = document.getElementById("weight");
         const dateInput = document.getElementById("weight-date");
         const weight = weightInput.value;
-        const date = dateInput.value ? new Date(dateInput.value) : new Date();
+        const date = dateInput.value ? new Date(dateInput.value).toISOString() : null;
 
         try {
           const response = await fetch("{% url 'log_weight' %}", {
@@ -335,7 +335,7 @@
             },
             body: JSON.stringify({
               weight: parseFloat(weight),
-              date: date.toISOString(),
+              date: date,
             }),
           });
 
@@ -353,7 +353,7 @@
         const mealInput = document.getElementById("meal");
         const dateInput = document.getElementById("meal-date");
         const meal = mealInput.value;
-        const date = dateInput.value ? new Date(dateInput.value) : new Date();
+        const date = dateInput.value ? new Date(dateInput.value).toISOString() : null;
 
         try {
           const response = await fetch("{% url 'log_meal' %}", {
@@ -367,7 +367,7 @@
             },
             body: JSON.stringify({
               description: meal,
-              date: date.toISOString(),
+              date: date,
             }),
           });
 
