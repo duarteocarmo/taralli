@@ -35,10 +35,6 @@ format:
 test:
 	@python -m pytest --cov=src --cov-report xml --log-level=WARNING --disable-pytest-warnings
 
-## Run api
-api:
-	@python -m uvicorn src.{{cookiecutter.project_slug}}.api.main:app --reload
-
 ## Build using pip-tools
 build:
 	@uv pip install --upgrade pip
@@ -48,7 +44,8 @@ build:
 
 ## Build the docker image
 docker:
-	docker build -f Dockerfile -t {{cookiecutter.project_slug}} .
+	docker build -f Dockerfile -t taralli . 
+	docker run -p 8000:8000 taralli
 
 #################################################################################
 # Self Documenting Commands                                                     #

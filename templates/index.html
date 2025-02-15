@@ -1,18 +1,17 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      src="https://unpkg.com/htmx.org@2.0.4"
-      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-      crossorigin="anonymous"
-    ></script>
-    {% csrf_token %}
-
-    <title>Taralli</title>
-    <style>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon"
+              href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥨</text></svg>">
+            <script src="https://unpkg.com/htmx.org@2.0.4"
+                    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+                    crossorigin="anonymous"></script>
+            {% csrf_token %}
+            <title>Taralli</title>
+            <style>
       body {
         font-family: monospace;
         max-width: 800px;
@@ -147,97 +146,61 @@
         font-size: 0.8em;
         margin-right: 8px;
       }
-    </style>
-  </head>
-  <body hx-boost="true">
-    <h1>Taralli</h1>
-
-    <div class="input-section">
-      <form action="{% url 'log_meal' %}" method="post" hx-push-url="false">
-        {% csrf_token %}
-        <div class="input-group">
-          <textarea
-            id="meal"
-            placeholder="Meal description"
-            name="description"
-          ></textarea>
-          <input type="datetime-local" id="meal-date" name="date" value=""/>
-          <button type="submit">Log Meal</button>
-          <div class="date-hint">
-            Date is optional - current time will be used if not specified
-          </div>
-        </div>
-      </form>
-      <form action="{% url 'log_weight' %}" method="post" hx-push-url="false">
-        {% csrf_token %}
-        <div class="input-group">
-          <input
-            type="number"
-            step="0.01"
-            id="weight"
-            placeholder="Weight (kg)"
-            name="weight"
-            class="form-control"
-            min="0"
-            max="500"
-            required
-            pattern="^\d+\.\d{2}$"
-            title="Please enter a weight with exactly two decimal places"
-          />
-          <input type="datetime-local" id="weight-date" name="date"/>
-          <button type="submit">Log Weight</button>
-          <div class="date-hint">
-            Date is optional - current time will be used if not specified
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div class="charts">
-      <div class="chart">
-        <div class="chart-title">Weight Progress (14 days)</div>
-        <div class="bar-chart" id="weight-chart">
-          <!-- Bars will be inserted here -->
-        </div>
-        <div class="date-labels" id="weight-dates">
-          <!-- Dates will be inserted here -->
-        </div>
-      </div>
-
-      <div class="chart">
-        <div class="chart-title">Meals Per Day (14 days)</div>
-        <div class="bar-chart" id="meal-chart">
-          <!-- Bars will be inserted here -->
-        </div>
-        <div class="date-labels" id="meal-dates">
-          <!-- Dates will be inserted here -->
-        </div>
-      </div>
-    </div>
-
-    <div class="recent-logs">
-      <h2>Recent Logs</h2>
-      <div id="log-entries">
-        {% for entry in log_entries %}
-        <div class="log-entry">
-          <span class="log-type">{{ entry.1 }}</span>
-          <span class="log-date">{{ entry.0.date|date:"Y-m-d H:i:s" }}</span>
-          <div>
-            {% if entry.1 == 'weight' %}
-              {{ entry.0.weight|floatformat:1 }} kg
-            {% else %}
-              {{ entry.0.description }}
-              {% if entry.0.calories %}({{ entry.0.calories }} cal){% endif %}
-            {% endif %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-
-    {{ log_entries }}
-
-    <script>
+            </style>
+        </head>
+        <body hx-boost="true">
+            <h1>Taralli</h1>
+            <div class="input-section">
+                <form action="{% url 'log_meal' %}" method="post" hx-push-url="false">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <textarea id="meal" placeholder="Meal description" name="description"></textarea>
+                        <input type="datetime-local" id="meal-date" name="date" value="" />
+                        <button type="submit">Log Meal</button>
+                        <div class="date-hint">Date is optional - current time will be used if not specified</div>
+                    </div>
+                </form>
+                <form action="{% url 'log_weight' %}" method="post" hx-push-url="false">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="number"
+                               step="0.01"
+                               id="weight"
+                               placeholder="Weight (kg)"
+                               name="weight"
+                               class="form-control"
+                               min="0"
+                               max="500"
+                               required
+                               pattern="^\d+\.\d{2}$"
+                               title="Please enter a weight with exactly two decimal places" />
+                        <input type="datetime-local" id="weight-date" name="date" />
+                        <button type="submit">Log Weight</button>
+                        <div class="date-hint">Date is optional - current time will be used if not specified</div>
+                    </div>
+                </form>
+            </div>
+            <div class="recent-logs">
+                <h2>Recent Logs</h2>
+                <div id="log-entries">
+                    {% for entry in log_entries %}
+                        <div class="log-entry">
+                            <span class="log-type">{{ entry.1 }}</span>
+                            <span class="log-date">{{ entry.0.date|date:"Y-m-d H:i:s" }}</span>
+                            <div>
+                                {% if entry.1 == 'weight' %}
+                                    {{ entry.0.weight|floatformat:1 }} kg
+                                {% else %}
+                                    {{ entry.0.description }}
+                                    {% if entry.0.calories %}({{ entry.0.calories }} cal){% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {{ log_entries }}
+            <script>
       async function fetchData() {
         try {
           const response = await fetch("{% url 'data_all' %}");
@@ -260,69 +223,6 @@
         }
       }
 
-      async function updateCharts() {
-        const data = await fetchData();
-        const weightData = data.weights;
-        const mealData = data.meals;
-
-        const weightChart = document.getElementById("weight-chart");
-        const mealChart = document.getElementById("meal-chart");
-        const weightDates = document.getElementById("weight-dates");
-        const mealDates = document.getElementById("meal-dates");
-
-        // Clear existing charts
-        weightChart.innerHTML = "";
-        mealChart.innerHTML = "";
-        weightDates.innerHTML = "";
-        mealDates.innerHTML = "";
-
-        // Get date labels
-        const dates = Array(14)
-          .fill(null)
-          .map((_, i) => {
-            const date = new Date();
-            date.setDate(date.getDate() - (13 - i));
-            return date.toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-            });
-          });
-
-        // Create bars and labels
-        weightData.forEach((weight, i) => {
-          const heightPercent =
-            ((weight - Math.min(...weightData)) /
-              (Math.max(...weightData) - Math.min(...weightData))) *
-            100;
-
-          const weightBar = document.createElement("div");
-          weightBar.className = "bar";
-          weightBar.style.height = `${heightPercent}%`;
-          weightBar.title = `${weight.toFixed(1)} kg`;
-          weightChart.appendChild(weightBar);
-
-          const dateLabel = document.createElement("div");
-          dateLabel.className = "date-label";
-          dateLabel.textContent = dates[i];
-          weightDates.appendChild(dateLabel);
-        });
-
-        mealData.forEach((meals, i) => {
-          const heightPercent = (meals / Math.max(...mealData)) * 100;
-
-          const mealBar = document.createElement("div");
-          mealBar.className = "bar";
-          mealBar.style.height = `${heightPercent}%`;
-          mealBar.title = `${meals} meals`;
-          mealChart.appendChild(mealBar);
-
-          const dateLabel = document.createElement("div");
-          dateLabel.className = "date-label";
-          dateLabel.textContent = dates[i];
-          mealDates.appendChild(dateLabel);
-        });
-      }
-
 
       // Set default date for weight to today
       document.addEventListener('DOMContentLoaded', function() {
@@ -332,7 +232,6 @@
       });
 
       // Initialize charts when page loads
-      updateCharts();
-    </script>
-  </body>
-</html>
+            </script>
+        </body>
+    </html>
