@@ -30,8 +30,8 @@ class LogEntry(BaseModel):
 
 
 def compile_log_entries():
-    weight_entries = [(w, 'weight') for w in weights]
-    meal_entries = [(m, 'meal') for m in meals]
+    weight_entries = [(w, "weight") for w in weights]
+    meal_entries = [(m, "meal") for m in meals]
     entries = weight_entries + meal_entries
     entries.sort(key=lambda x: x[0].date)
     return entries
@@ -54,7 +54,7 @@ def get_logs(request):
 @require_http_methods(["POST"])
 def log_weight(request):
     weight = float(request.POST.get("weight"))
-    date = request.POST.get("date", datetime.now())
+    date = request.POST.get("date") or datetime.now()
     w = Weight(weight=weight, date=date)
     weights.append(w)
     logger.info(f"Logged weight: {w.weight} on {w.date}")
@@ -64,7 +64,7 @@ def log_weight(request):
 @require_http_methods(["POST"])
 def log_meal(request):
     description = request.POST.get("description")
-    date = request.POST.get("date", datetime.now())
+    date = request.POST.get("date") or datetime.now()
     m = Meal(description=description, date=date, calories=random.randint(100, 1000))
     meals.append(m)
     logger.info(f"Logged meal: {m.description} on {m.date}")
