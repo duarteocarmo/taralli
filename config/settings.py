@@ -36,11 +36,11 @@ ALLOWED_HOSTS = [
 ]
 
 # Security Settings
-SECURE_SSL_REDIRECT = bool(int(os.getenv("DJANGO_SECURE_SSL_REDIRECT", "0")))
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Only enable strict security in production
 if not DEBUG:
+    SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 31536000  # 1 year
