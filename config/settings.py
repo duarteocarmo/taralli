@@ -29,7 +29,7 @@ ALLOWED_HOSTS = [
     "0.0.0.0",
     "localhost",
     "127.0.0.1",
-    "i00wkog880o00css8gkowkgw.136.243.151.98.sslip.io",
+    "taralli.duarteocarmo.com",
 ]
 
 
