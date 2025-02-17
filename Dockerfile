@@ -16,3 +16,9 @@ COPY . /app/
 
 # Install dependencies
 RUN uv sync --no-dev --frozen --no-cache
+
+# Make entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]

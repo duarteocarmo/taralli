@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Collect static files
 echo "Collect static files"
