@@ -3,7 +3,7 @@ services:
     build: .
     command: ./entrypoint.sh
     volumes:
-      - sqlite_data:/app/db.sqlite3
+      - sqlite_data:/app/data
     ports:
       - "8012:8012"
 
