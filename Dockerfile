@@ -6,7 +6,6 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DATABASE_URL=sqlite:///data/db.sqlite3
 
 # Set work directory
 WORKDIR /app
